@@ -1,0 +1,12 @@
+<h1>Meus Livros Lidos</h1>
+
+<%= link_to 'Novo Livro', new_book_path %>
+
+<% @books.each do |book| %>
+  <div>
+    <h2><%= link_to book.title, book %></h2>
+    <p>Autor: <%= book.author %></p>
+    <p>Gênero: <%= Book.genres[book.genre] %></p>
+    <p>Avaliação: <%= "⭐" * book.star_rating %></p>
+  </div>
+<% end %>

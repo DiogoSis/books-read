@@ -1,0 +1,47 @@
+<%= form_with(model: book) do |form| %>
+    <% if book.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(book.errors.count, "error") %> impediu este livro ser salvo </h2>
+            <ul>
+                <% book.errors.each do |error| %>
+                    <li><%= error.full_message %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+    
+    <div class="field">
+        <%= form.label :title %>
+        <%= form.text_field :title %>
+    </div>
+    
+    <div class="field">
+        <%= form.label :author %>
+        <%= form.text_field :author %>
+    </div>
+
+    <div class="field">
+        <%= form.label :genre %>
+        <%= form.select :genre, Book.genres.keys.map { |key| [Book.genres[key], key] }, include_blank: true %>
+    </div>
+
+    <div class="field">
+        <%= form.label :year %>
+        <%= form.number_field :year %>
+    </div>
+
+    <div>
+        <%= form.label :star_raiting %>
+        <%= form.select :star_raiting, (1..5).to_a %>
+    </div>
+    
+    <div class="field">
+        <%= form.label :description %>
+        <%= form.text_area :description %>
+    </div>
+    
+    <div class="actions">
+        <%= form.submit %>
+    </div>
+
+<% end %>
