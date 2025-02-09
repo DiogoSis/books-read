@@ -1,47 +1,53 @@
-<%= form_with(model: book) do |form| %>
-    <% if book.errors.any? %>
-        <div id="error_explanation">
-            <h2><%= pluralize(book.errors.count, "error") %> impediu este livro ser salvo </h2>
-            <ul>
-                <% book.errors.each do |error| %>
-                    <li><%= error.full_message %></li>
-                <% end %>
-            </ul>
-        </div>
-    <% end %>
-    
-    <div class="field">
-        <%= form.label :title %>
-        <%= form.text_field :title %>
+<%= form_with(model: book, local: true) do |form| %>
+  <% if book.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(book.errors.count, "erro") %> impediram que este livro fosse salvo:</h4>
+      <ul>
+        <% book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
-    
-    <div class="field">
-        <%= form.label :author %>
-        <%= form.text_field :author %>
-    </div>
+  <% end %>
 
-    <div class="field">
-        <%= form.label :genre %>
-        <%= form.select :genre, Book.genres.keys.map { |key| [Book.genres[key], key] }, include_blank: true %>
-    </div>
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
 
-    <div class="field">
-        <%= form.label :year %>
-        <%= form.number_field :year %>
-    </div>
+  <div class="mb-3">
+    <%= form.label :author, class: "form-label" %>
+    <%= form.text_field :author, class: "form-control" %>
+  </div>
 
-    <div>
-        <%= form.label :star_raiting %>
-        <%= form.select :star_raiting, (1..5).to_a %>
-    </div>
-    
-    <div class="field">
-        <%= form.label :description %>
-        <%= form.text_area :description %>
-    </div>
-    
-    <div class="actions">
-        <%= form.submit %>
-    </div>
+  <div class="mb-3">
+    <%= form.label :genre, class: "form-label" %>
+    <%= form.select :genre, Book.genres.keys.map { |key| [Book.genres[key], key] }, { include_blank: true }, class: "form-select" %>
+  </div>
 
+  <div class="mb-3">
+    <%= form.label :year, class: "form-label" %>
+    <%= form.number_field :year, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :star_rating, class: "form-label" %>
+    <ul class="list-unstyled list-inline">
+      <% 5.downto(1).each do |star| %>
+        <li class="list-inline-item">
+          <%= form.radio_button :star_rating, star, id: "star-#{star}" %>
+          <label for="star-#{star}" class="star">&#9733;</label>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, rows: 5, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.submit "Salvar", class: "btn btn-primary" %>
+  </div>
 <% end %>

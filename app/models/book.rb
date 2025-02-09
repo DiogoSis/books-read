@@ -11,4 +11,9 @@ class Book < ApplicationRecord
         autoajuda: "Autoajuda",
         outros: "Outros"
     }, _prefix: :genre
+
+    validates :title, presence: true
+    validates :author, :description, presence: true
+    validates :year, numericality: { only_integer: true, less_than_or_equal_to: Time.now.year }
+    validates :star_raiting, inclusion: { in: 1..5 }
 end
